@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Authentication</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0c0c3b, #1a1a5e, #0f0f4f);
+            background-size: 400% 400%;
+            animation: animeWave 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+        }
+        @keyframes animeWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container { max-width: 600px; margin: 0 auto; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; }
+        button { background: #4a90e2; color: white; cursor: pointer; }
+        button:hover { background: #357abd; }
+        .error { color: #ff6b6b; }
+        .success { color: #51cf66; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Telegram File Sender</h1>
+        <p>Please authenticate with Telegram to continue</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if not code_requested %}
+            <form method="POST" action="/request_code">
+                <h2>Connect to Telegram</h2>
+                <input type="text" name="phone" placeholder="Enter phone number with country code (e.g., +1234567890)" required>
+                <button type="submit">Request Login Code</button>
+            </form>
+        {% else %}
+            <form method="POST" action="/login">
+                <h2>Enter Telegram Code</h2>
+                <p>Code sent to: {{ phone_number }}</p>
+                <input type="text" name="code" placeholder="Enter code from Telegram app" required>
+                <button type="submit">Login</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
