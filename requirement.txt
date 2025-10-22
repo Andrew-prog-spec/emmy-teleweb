@@ -1,0 +1,7 @@
+flask==2.3.3
+telethon==1.36.0
+pandas==2.2.3
+openpyxl==3.1.5
+psycopg2-binary==2.9.9
+redis==5.0.8
+rq==1.16.2
